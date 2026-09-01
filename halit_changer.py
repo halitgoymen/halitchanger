@@ -235,7 +235,7 @@ STRINGS = {
     "color_packs": {"tr": "Renk Paketleri", "en": "Color Packs"},
     "default": {"tr": "Varsayılan", "en": "Default"},
     "loading_img": {"tr": "Yükleniyor...", "en": "Loading..."},
-    "still_loading": {"tr": "Hâlâ yükleniyor, bekle...", "en": "Still loading, please wait..."},
+    "still_loading": {"tr": "Hala yükleniyor, bekle...", "en": "Still loading, please wait..."},
     "sent_toast": {"tr": "✓  Skin LTK'ya gönderildi  ·  {label}", "en": "✓  Skin sent to LTK  ·  {label}"},
     "send_failed": {"tr": "LTK'ya gönderilemedi", "en": "Couldn't send to LTK"},
     "log_not_found": {"tr": "Log dosyası bulunamadı", "en": "Log file not found"},

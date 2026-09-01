@@ -207,7 +207,7 @@ Bir skin kartının görseline tıklarsan detay ve chroma listesi açılır. Fav
 **Add** bastığında LTK'da hiçbir şey kurulmuyorsa LTK'nın kendi ayarına bak: **Settings →
 Library → Trusted mod providers** listesinde `raw.githubusercontent.com` olmalı (Halit Changer
 bunu otomatik ekler, ama LTK o sırada zaten açıksa fark etmesi için LTK'yı yeniden başlatman
-gerekir). Hâlâ yoksa elle ekle, ya da listeyi tamamen boşaltarak her kaynağa izin ver.
+gerekir). Hala yoksa elle ekle, ya da listeyi tamamen boşaltarak her kaynağa izin ver.
 
 ### Notlar
 
