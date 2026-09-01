@@ -77,6 +77,21 @@ installed. Halit Changer tries to auto-start it on launch; if it's missing, **Se
 download page** opens the download page for you. Open and close LTK once so its settings file
 gets created.
 
+**Two settings inside LTK itself must be set correctly, or skins will refuse to install:**
+
+<div align="center">
+<img src="docs/screenshots/ltk-trusted-providers.png" width="49%" alt="LTK Library settings — Trusted mod providers" />
+<img src="docs/screenshots/ltk-mod-safety.png" width="49%" alt="LTK Mod Safety settings" />
+</div>
+
+1. **Settings → Library → Trusted mod providers** must include `raw.githubusercontent.com`.
+   Halit Changer adds this automatically on first run, but only takes effect after LTK is
+   restarted — if one-click installs silently do nothing, check this list.
+2. **Settings → Mod Safety → Enforce anti-skinhack scan** should be turned **off**.
+   Community skins from LeagueSkins routinely get flagged as false-positive "skinhacks" by
+   this scan and get blocked from loading — this is LTK's own gate, not something Halit
+   Changer can bypass from the outside.
+
 ### Usage
 
 1. Launch the app — LTK auto-starts if it isn't running.
@@ -85,11 +100,9 @@ gets created.
 4. **Add** — the skin goes straight to LTK.
 5. Enable it in LTK and hit **Run**.
 
-If **Add** doesn't seem to install anything in LTK, check LTK's own settings: **Settings →
-Library → Trusted mod providers** must include `raw.githubusercontent.com` (Halit Changer writes
-it there automatically, but if LTK was already open at the time it won't notice until you
-restart LTK). If it's still missing, add it by hand, or clear the whole list to allow any
-source.
+If **Add** doesn't seem to install anything in LTK, double-check the two LTK settings from
+[Requirement](#requirement) above — trusted providers and the anti-skinhack scan are the
+usual culprits.
 
 Click a skin card's image to open its detail view with the full chroma list. The favorite
 star is saved separately for champions and for skins.
@@ -193,6 +206,21 @@ olmalı. Halit Changer açıldığında LTK'yı otomatik başlatmayı dener; kur
 **Settings → LTK download page** indirme sayfasını açar. LTK'yı bir kez açıp kapatman, ayar
 dosyasının oluşması için yeterli.
 
+**LTK'nın kendi içinde iki ayar kesinlikle doğru olmalı, yoksa skinler kurulmayı reddeder:**
+
+<div align="center">
+<img src="docs/screenshots/ltk-trusted-providers.png" width="49%" alt="LTK Library ayarları — Trusted mod providers" />
+<img src="docs/screenshots/ltk-mod-safety.png" width="49%" alt="LTK Mod Safety ayarları" />
+</div>
+
+1. **Settings → Library → Trusted mod providers** listesinde `raw.githubusercontent.com`
+   olmalı. Halit Changer bunu ilk çalıştırmada otomatik ekler, ama etkili olması için LTK'nın
+   yeniden başlatılması gerekir — tek tıkla kurulum sessizce hiçbir şey yapmıyorsa önce bu
+   listeye bak.
+2. **Settings → Mod Safety → Enforce anti-skinhack scan** **kapalı** olmalı. LeagueSkins'ten
+   gelen topluluk skinleri bu taramada sık sık yanlış pozitif "skinhack" olarak işaretlenip
+   engelleniyor — bu LTK'nın kendi kapısı, Halit Changer dışarıdan bunu aşamaz.
+
 ### Kullanım
 
 1. Uygulamayı aç — LTK çalışmıyorsa otomatik başlatılır.
@@ -204,10 +232,9 @@ dosyasının oluşması için yeterli.
 Bir skin kartının görseline tıklarsan detay ve chroma listesi açılır. Favori yıldızı hem
 şampiyon hem skin için ayrı ayrı kaydedilir.
 
-**Add** bastığında LTK'da hiçbir şey kurulmuyorsa LTK'nın kendi ayarına bak: **Settings →
-Library → Trusted mod providers** listesinde `raw.githubusercontent.com` olmalı (Halit Changer
-bunu otomatik ekler, ama LTK o sırada zaten açıksa fark etmesi için LTK'yı yeniden başlatman
-gerekir). Hala yoksa elle ekle, ya da listeyi tamamen boşaltarak her kaynağa izin ver.
+**Add** bastığında LTK'da hiçbir şey kurulmuyorsa yukarıdaki [Gereksinim](#gereksinim)
+bölümündeki iki LTK ayarını kontrol et — trusted providers ve anti-skinhack taraması genelde
+sebep oluyor.
 
 ### Notlar
 
