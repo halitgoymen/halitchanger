@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec.bak
+ChatGPT Image 4 Tem 2026 15_59_24.png
