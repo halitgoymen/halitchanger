@@ -37,6 +37,7 @@ Changer is just a showcase and a sender.
 - 🔍 All 236 champions, instant search by Turkish or English name
 - 🎨 Chroma / color pack dots on skin cards — pick one and send directly
 - ⭐ Favoriting for both champions and individual skins
+- 🌐 TR / EN interface toggle in the header — remembers your choice
 - 🔌 Live LTK Manager connection status; auto-starts LTK if it's not running
 - ⚡ Images are cached on disk — instant load on the second launch
 - 🧩 Single-file `.exe` — no Python install required
@@ -146,6 +147,7 @@ sadece bir vitrin ve gönderici.
 - 🔍 236 şampiyonun tamamı, Türkçe/İngilizce isimle anlık arama
 - 🎨 Skin kartlarında chroma / color pack noktaları — varsa doğrudan seçip gönder
 - ⭐ Şampiyon ve skin için favorileme
+- 🌐 Header'da TR / EN dil seçici — seçimi hatırlar
 - 🔌 LTK Manager bağlantı durumu canlı gösterilir, kapalıysa uygulama kendisi başlatır
 - ⚡ Görseller diskte önbelleğe alınır, ikinci açılış anında yüklenir
 - 🧩 Tek dosyalık `.exe` — Python kurulumu gerekmez
