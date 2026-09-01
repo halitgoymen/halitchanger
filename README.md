@@ -85,6 +85,12 @@ gets created.
 4. **Add** — the skin goes straight to LTK.
 5. Enable it in LTK and hit **Run**.
 
+If **Add** doesn't seem to install anything in LTK, check LTK's own settings: **Settings →
+Library → Trusted mod providers** must include `raw.githubusercontent.com` (Halit Changer writes
+it there automatically, but if LTK was already open at the time it won't notice until you
+restart LTK). If it's still missing, add it by hand, or clear the whole list to allow any
+source.
+
 Click a skin card's image to open its detail view with the full chroma list. The favorite
 star is saved separately for champions and for skins.
 
@@ -197,6 +203,11 @@ dosyasının oluşması için yeterli.
 
 Bir skin kartının görseline tıklarsan detay ve chroma listesi açılır. Favori yıldızı hem
 şampiyon hem skin için ayrı ayrı kaydedilir.
+
+**Add** bastığında LTK'da hiçbir şey kurulmuyorsa LTK'nın kendi ayarına bak: **Settings →
+Library → Trusted mod providers** listesinde `raw.githubusercontent.com` olmalı (Halit Changer
+bunu otomatik ekler, ama LTK o sırada zaten açıksa fark etmesi için LTK'yı yeniden başlatman
+gerekir). Hâlâ yoksa elle ekle, ya da listeyi tamamen boşaltarak her kaynağa izin ver.
 
 ### Notlar
 
