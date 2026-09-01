@@ -211,6 +211,47 @@ CHROMA_COLORS = {
     "Master": "#9333ea", "Grandmaster": "#ef4444", "Challenger": "#f59e0b",
 }
 
+STRINGS = {
+    "champions_header": {"tr": "ŞAMPİYONLAR", "en": "CHAMPIONS"},
+    "search_placeholder": {"tr": "  Şampiyon ara...", "en": "  Search champions..."},
+    "select_champion": {"tr": "Bir şampiyon seç", "en": "Select a champion"},
+    "select_champion_sub": {"tr": "Ara, skin seç, Add → LTK", "en": "Search, pick a skin, Add → LTK"},
+    "favorite": {"tr": "☆  Favori", "en": "☆  Favorite"},
+    "favorite_on": {"tr": "★  Favori", "en": "★  Favorite"},
+    "settings": {"tr": "Ayarlar", "en": "Settings"},
+    "ltk_checking": {"tr": "  ●  LTK kontrol ediliyor...  ", "en": "  ●  LTK Checking...  "},
+    "ltk_connected": {"tr": "  ●  LTK Bagli  ", "en": "  ●  LTK Connected  "},
+    "ltk_offline": {"tr": "  ●  LTK Kapali  ", "en": "  ●  LTK Offline  "},
+    "ready": {"tr": "Hazir  ✔   {n} sampiyon", "en": "Ready  ✔   {n} champions"},
+    "loading_status": {"tr": "Yukleniyor...", "en": "Loading..."},
+    "error_status": {"tr": "Hata", "en": "Error"},
+    "pick_champion": {"tr": "Bir sampiyon sec", "en": "Pick a champion"},
+    "skins_count": {"tr": "{n} skin", "en": "{n} skins"},
+    "add": {"tr": "+  Ekle", "en": "+  Add"},
+    "sending": {"tr": "Gonderiliyor...", "en": "Sending..."},
+    "sent": {"tr": "Gonderildi", "en": "Sent"},
+    "add_to_ltk": {"tr": "+  LTK'ya Ekle", "en": "+  Add to LTK"},
+    "close": {"tr": "Kapat", "en": "Close"},
+    "color_packs": {"tr": "Renk Paketleri", "en": "Color Packs"},
+    "default": {"tr": "Varsayilan", "en": "Default"},
+    "loading_img": {"tr": "Yukleniyor...", "en": "Loading..."},
+    "still_loading": {"tr": "Hala yukleniyor, bekle...", "en": "Still loading, please wait..."},
+    "sent_toast": {"tr": "✓  Skin LTK'ya gonderildi  ·  {label}", "en": "✓  Skin sent to LTK  ·  {label}"},
+    "send_failed": {"tr": "LTK'ya gonderilemedi", "en": "Couldn't send to LTK"},
+    "log_not_found": {"tr": "Log dosyasi bulunamadi", "en": "Log file not found"},
+    "open_restart_ltk": {"tr": "LTK'yi Ac / Yeniden Baslat", "en": "Open / Restart LTK"},
+    "open_log": {"tr": "Logu Ac", "en": "Open log"},
+    "ltk_download_page": {"tr": "LTK indirme sayfasi", "en": "LTK download page"},
+    "loading_data": {"tr": "Veriler yukleniyor...", "en": "Loading data..."},
+    "preparing_list": {"tr": "Liste hazirlaniyor...", "en": "Preparing list..."},
+    "first_launch": {"tr": "Ilk acilis — veriler indiriliyor...", "en": "First launch — downloading data..."},
+    "load_failed": {"tr": "Yukleme basarisiz", "en": "Load failed"},
+    "data_load_failed": {"tr": "Veri yuklenemedi: {e}", "en": "Failed to load data: {e}"},
+    "ltk_not_started": {"tr": "LTK baslatilamadi — Settings → LTK download", "en": "LTK couldn't start — Settings → LTK download"},
+    "ltk_conn_not_found": {"tr": "LTK baglantisi bulunamadi", "en": "LTK connection not found"},
+    "ltk_not_found_dl": {"tr": "LTK bulunamadi — indirme sayfasi acildi", "en": "LTK not found — download page opened"},
+}
+
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
@@ -594,7 +635,7 @@ class SkinSlot(tk.Frame):
         self.chroma.pack(fill="x", padx=6, pady=(2, 0))
         self.chroma.bind("<Button-1>", self._chroma_click)
         self.add_btn = tk.Button(
-            self, text="+  Add", bg=CLR_GOLD_DK, fg="#1a1400", relief="flat",
+            self, text=app.t("add"), bg=CLR_GOLD_DK, fg="#1a1400", relief="flat",
             font=("Segoe UI", 9, "bold"), cursor="hand2", command=self._add,
             activebackground=CLR_GOLD, activeforeground="#1a1400")
         self.add_btn.pack(fill="x", padx=8, pady=(6, 8), ipady=3)
@@ -617,7 +658,7 @@ class SkinSlot(tk.Frame):
         self._token += 1
         token = self._token
         self.name.configure(text=skin["name"])
-        self.add_btn.configure(text="+  Add", state="normal")
+        self.add_btn.configure(text=self.app.t("add"), state="normal")
         self.img.configure(image="", text="")
         self._photo = None
         chromas = self.app._get_chromas(skin)
@@ -671,15 +712,15 @@ class SkinSlot(tk.Frame):
         if self._busy or not self.skin:
             return
         self._busy = True
-        self.add_btn.configure(text="Sending...", state="disabled")
+        self.add_btn.configure(text=self.app.t("sending"), state="disabled")
         self.app._send_to_ltk(self.skin, self.selected_chroma, card=self)
 
     def send_done(self, ok):
         self._busy = False
         try:
-            self.add_btn.configure(text="+  Add" if not ok else "Sent", state="normal")
+            self.add_btn.configure(text=self.app.t("add") if not ok else self.app.t("sent"), state="normal")
             if ok:
-                self.after(1400, lambda: self.add_btn.winfo_exists() and self.add_btn.configure(text="+  Add"))
+                self.after(1400, lambda: self.add_btn.winfo_exists() and self.add_btn.configure(text=self.app.t("add")))
         except Exception:
             pass
 
@@ -756,7 +797,7 @@ class VirtualSkinGrid(tk.Frame):
                 self.canvas.itemconfigure(wid, state="hidden")
             self.canvas.delete("empty")
             self.canvas.create_text(
-                cw // 2, 80, text="Pick a champion", fill=CLR_MUTED,
+                cw // 2, 80, text=self.app.t("pick_champion"), fill=CLR_MUTED,
                 font=("Segoe UI", 14), tags="empty")
             return
         self.canvas.delete("empty")
@@ -804,6 +845,7 @@ class HalitChanger(ctk.CTk):
             pass
 
         self.cfg = load_config()
+        self.lang = self.cfg.get("lang") or self._detect_lang()
         self.fav_champs = {int(x) for x in (self.cfg.get("fav_champs") or [])}
         self.fav_skins = {int(x) for x in (self.cfg.get("fav_skins") or [])}
         self.skin_ids = load_skin_ids()
@@ -873,6 +915,77 @@ class HalitChanger(ctk.CTk):
             pass
         self.destroy()
 
+    # -------------------------------------------------------------- dil
+
+    @staticmethod
+    def _detect_lang():
+        try:
+            langid = ctypes.windll.kernel32.GetUserDefaultUILanguage()
+            if (langid & 0xFF) == 0x1A:  # LANG_TURKISH
+                return "tr"
+        except Exception:
+            pass
+        return "en"
+
+    def t(self, key, **kw):
+        entry = STRINGS.get(key, {})
+        text = entry.get(self.lang) or entry.get("en") or key
+        return text.format(**kw) if kw else text
+
+    def _set_lang(self, code):
+        if code not in ("tr", "en") or code == self.lang:
+            return
+        self.lang = code
+        self.cfg["lang"] = code
+        save_config(self.cfg)
+        self._refresh_lang_ui()
+
+    def _refresh_lang_ui(self):
+        try:
+            self.lang_switch.set(self.lang.upper())
+        except Exception:
+            pass
+        try:
+            self.side_title.configure(text=self.t("champions_header"))
+        except Exception:
+            pass
+        try:
+            self.search_entry.configure(placeholder_text=self.t("search_placeholder"))
+        except Exception:
+            pass
+        try:
+            self.settings_btn.configure(text=self.t("settings"))
+        except Exception:
+            pass
+        try:
+            if self.selected_champ:
+                n = len(self._current_skins)
+                self.skin_count_lbl.configure(text=self.t("skins_count", n=n))
+            else:
+                self.champ_title.configure(text=self.t("select_champion"))
+                self.skin_count_lbl.configure(text=self.t("select_champion_sub"))
+        except Exception:
+            pass
+        self._sync_champ_fav_btn()
+        try:
+            self._apply_ltk_badge(self.ltk_running)
+        except Exception:
+            pass
+        try:
+            if self.ready:
+                self.set_status(self.t("ready", n=len(self.champions)))
+            else:
+                self.set_status(self.t("loading_status"))
+        except Exception:
+            pass
+        try:
+            if self._current_skins:
+                self.skin_grid.set_skins(self._current_skins)
+            else:
+                self.skin_grid._draw()
+        except Exception:
+            pass
+
     # -------------------------------------------------------------- UI
 
     def _build_ui(self):
@@ -916,7 +1029,7 @@ class HalitChanger(ctk.CTk):
         self._loader_bar.start()
 
         self._loader_label = ctk.CTkLabel(
-            card, text="Yukleniyor...", font=ctk.CTkFont(size=12), text_color=CLR_MUTED)
+            card, text=self.t("loading_data"), font=ctk.CTkFont(size=12), text_color=CLR_MUTED)
         self._loader_label.pack(pady=(0, 8))
         self._loader.lift()
 
@@ -981,19 +1094,30 @@ class HalitChanger(ctk.CTk):
                                      border_width=1, border_color=CLR_BORDER)
         self.ltk_pill.pack(side="left", padx=(0, 8), pady=14)
         self.ltk_badge = ctk.CTkLabel(
-            self.ltk_pill, text="  \u25cf  LTK Checking...  ",
+            self.ltk_pill, text=self.t("ltk_checking"),
             font=ctk.CTkFont(size=11, weight="bold"), text_color=CLR_MUTED)
         self.ltk_badge.pack(padx=4, pady=4)
         self.ltk_badge.bind("<Button-1>", lambda e: self._open_ltk(force=True))
         self.ltk_pill.bind("<Button-1>", lambda e: self._open_ltk(force=True))
 
-        ctk.CTkButton(right, text="Settings", width=88, height=30, corner_radius=8,
-                      fg_color=CLR_CARD, hover_color=CLR_CARD_HOV,
-                      border_color=CLR_BORDER, border_width=1,
-                      font=ctk.CTkFont(size=12),
-                      command=self._open_settings).pack(side="left", pady=14)
+        self.settings_btn = ctk.CTkButton(
+            right, text=self.t("settings"), width=88, height=30, corner_radius=8,
+            fg_color=CLR_CARD, hover_color=CLR_CARD_HOV,
+            border_color=CLR_BORDER, border_width=1,
+            font=ctk.CTkFont(size=12),
+            command=self._open_settings)
+        self.settings_btn.pack(side="left", pady=14)
 
-        self.status_label = ctk.CTkLabel(right, text="Loading...",
+        self.lang_switch = ctk.CTkSegmentedButton(
+            right, values=["TR", "EN"], width=100, height=30, corner_radius=8,
+            fg_color=CLR_CARD, selected_color=CLR_PURPLE_DK, selected_hover_color=CLR_PURPLE,
+            unselected_color=CLR_CARD, unselected_hover_color=CLR_CARD_HOV,
+            font=ctk.CTkFont(size=11, weight="bold"),
+            command=lambda v: self._set_lang(v.lower()))
+        self.lang_switch.set(self.lang.upper())
+        self.lang_switch.pack(side="left", padx=(0, 8), pady=14)
+
+        self.status_label = ctk.CTkLabel(right, text=self.t("loading_status"),
                                          font=ctk.CTkFont(size=11), text_color=CLR_MUTED)
         self.status_label.pack(side="left", padx=(12, 4), pady=14)
 
@@ -1008,18 +1132,20 @@ class HalitChanger(ctk.CTk):
         side.grid_propagate(False)
         side.grid_columnconfigure(0, weight=1)
 
-        ctk.CTkLabel(side, text="CHAMPIONS", font=ctk.CTkFont(size=11, weight="bold"),
-                     text_color=CLR_MUTED).grid(row=0, column=0, padx=16, pady=(14, 6), sticky="w")
+        self.side_title = ctk.CTkLabel(side, text=self.t("champions_header"),
+                                       font=ctk.CTkFont(size=11, weight="bold"),
+                                       text_color=CLR_MUTED)
+        self.side_title.grid(row=0, column=0, padx=16, pady=(14, 6), sticky="w")
 
         self.search_var = ctk.StringVar()
         self.search_var.trace_add("write", lambda *a: self._filter_champions())
-        search = ctk.CTkEntry(
+        self.search_entry = ctk.CTkEntry(
             side, textvariable=self.search_var, height=36, corner_radius=10,
-            placeholder_text="  Search champions...",
+            placeholder_text=self.t("search_placeholder"),
             placeholder_text_color=CLR_MUTED,
             fg_color=CLR_CARD, border_color=CLR_BORDER, border_width=1,
             font=ctk.CTkFont(size=13))
-        search.grid(row=1, column=0, padx=12, pady=(0, 8), sticky="ew")
+        self.search_entry.grid(row=1, column=0, padx=12, pady=(0, 8), sticky="ew")
 
         self.champ_list = ChampCanvas(side, self)
         self.champ_list.grid(row=2, column=0, sticky="nsew", padx=(6, 4), pady=(0, 10))
@@ -1040,16 +1166,16 @@ class HalitChanger(ctk.CTk):
 
         titles = ctk.CTkFrame(head, fg_color="transparent")
         titles.pack(side="left", fill="y")
-        self.champ_title = ctk.CTkLabel(titles, text="Select a champion",
+        self.champ_title = ctk.CTkLabel(titles, text=self.t("select_champion"),
                                         font=ctk.CTkFont(size=22, weight="bold"),
                                         text_color=CLR_TEXT)
         self.champ_title.pack(anchor="w")
-        self.skin_count_lbl = ctk.CTkLabel(titles, text="Search, pick a skin, Add \u2192 LTK",
+        self.skin_count_lbl = ctk.CTkLabel(titles, text=self.t("select_champion_sub"),
                                            font=ctk.CTkFont(size=12), text_color=CLR_MUTED)
         self.skin_count_lbl.pack(anchor="w")
 
         self.champ_fav_btn = ctk.CTkButton(
-            head, text="\u2606  Favorite", width=110, height=32, corner_radius=8,
+            head, text=self.t("favorite"), width=110, height=32, corner_radius=8,
             fg_color=CLR_CARD, hover_color=CLR_CARD_HOV, border_width=1, border_color=CLR_BORDER,
             font=ctk.CTkFont(size=12), command=self._toggle_fav_champ)
         self.champ_fav_btn.pack(side="right")
@@ -1077,7 +1203,7 @@ class HalitChanger(ctk.CTk):
         if os.path.isfile(LOG_FILE):
             subprocess.Popen(["notepad", LOG_FILE], creationflags=NO_WINDOW)
         else:
-            self.toast("Log file not found", success=False)
+            self.toast(self.t("log_not_found"), success=False)
 
     def _open_settings(self):
         if self._settings_win and self._settings_win.winfo_exists():
@@ -1085,7 +1211,7 @@ class HalitChanger(ctk.CTk):
             return
         win = ctk.CTkToplevel(self)
         self._settings_win = win
-        win.title("Settings")
+        win.title(self.t("settings"))
         win.geometry("340x280")
         win.configure(fg_color=CLR_BG)
         win.resizable(False, False)
@@ -1098,12 +1224,12 @@ class HalitChanger(ctk.CTk):
             pass
         pad = ctk.CTkFrame(win, fg_color=CLR_PANEL, corner_radius=12)
         pad.pack(fill="both", expand=True, padx=16, pady=16)
-        ctk.CTkLabel(pad, text="Settings", font=ctk.CTkFont(size=16, weight="bold"),
+        ctk.CTkLabel(pad, text=self.t("settings"), font=ctk.CTkFont(size=16, weight="bold"),
                      text_color=CLR_TEXT).pack(anchor="w", padx=16, pady=(14, 10))
         for text, cmd in (
-            ("Open / Restart LTK", lambda: self._open_ltk(force=True)),
-            ("Open log", self._open_log),
-            ("LTK download page", lambda: webbrowser.open(
+            (self.t("open_restart_ltk"), lambda: self._open_ltk(force=True)),
+            (self.t("open_log"), self._open_log),
+            (self.t("ltk_download_page"), lambda: webbrowser.open(
                 "https://github.com/LeagueToolkit/ltk-manager/releases/latest")),
         ):
             ctk.CTkButton(pad, text=text, height=36, corner_radius=8,
@@ -1166,21 +1292,21 @@ class HalitChanger(ctk.CTk):
                 except Exception:
                     self.log("LTK not found.")
                     self._ltk_running_next = False
-                    self._ltk_toast = ("LTK baslatilamadi \u2014 Settings \u2192 LTK download", False)
+                    self._ltk_toast = (self.t("ltk_not_started"), False)
             except Exception as e:
                 self.log(f"LTK auto-start failed: {e}")
                 self._ltk_running_next = False
-                self._ltk_toast = ("LTK baglantisi bulunamadi", False)
+                self._ltk_toast = (self.t("ltk_conn_not_found"), False)
         threading.Thread(target=work, daemon=True).start()
 
     def _apply_ltk_badge(self, running):
         self.ltk_running = bool(running)
         try:
             if running:
-                self.ltk_badge.configure(text="  \u25cf  LTK Connected  ", text_color=CLR_GREEN)
+                self.ltk_badge.configure(text=self.t("ltk_connected"), text_color=CLR_GREEN)
                 self.ltk_pill.configure(fg_color=CLR_GREEN_DIM, border_color=CLR_GREEN)
             else:
-                self.ltk_badge.configure(text="  \u25cf  LTK Offline  ", text_color=CLR_RED)
+                self.ltk_badge.configure(text=self.t("ltk_offline"), text_color=CLR_RED)
                 self.ltk_pill.configure(fg_color=CLR_RED_DIM, border_color=CLR_RED)
         except Exception:
             pass
@@ -1221,7 +1347,7 @@ class HalitChanger(ctk.CTk):
             except Exception:
                 self.log("LTK not found - download page opened.")
                 webbrowser.open("https://github.com/LeagueToolkit/ltk-manager/releases/latest")
-                self._ltk_toast = ("LTK bulunamadi \u2014 indirme sayfasi acildi", False)
+                self._ltk_toast = (self.t("ltk_not_found_dl"), False)
                 self._ltk_running_next = False
         threading.Thread(target=work, daemon=True).start()
 
@@ -1231,28 +1357,28 @@ class HalitChanger(ctk.CTk):
         ensure_dirs()
         self.log("=== Halit Changer started ===")
         try:
-            self._set_loader("Veriler yukleniyor...")
-            self.set_status("Loading...")
+            self._set_loader(self.t("loading_data"))
+            self.set_status(self.t("loading_status"))
             cached = self._load_data(force_network=False)
             if cached:
-                self._set_loader("Liste hazirlaniyor...")
+                self._set_loader(self.t("preparing_list"))
                 self.after(0, self._render_champions)
                 threading.Thread(target=self._refresh_data, daemon=True).start()
             else:
-                self._set_loader("Ilk acilis \u2014 veriler indiriliyor...")
+                self._set_loader(self.t("first_launch"))
                 self._load_data(force_network=True)
-                self._set_loader("Liste hazirlaniyor...")
+                self._set_loader(self.t("preparing_list"))
                 self.after(0, self._render_champions)
             self._prepare_ltk()
             self.ready = True
-            self.set_status(f"Ready  \u2714   {len(self.champions)} champions")
+            self.set_status(self.t("ready", n=len(self.champions)))
             self.log(f"Ready. {len(self.champions)} champions loaded.")
         except Exception as e:
-            self.set_status("Error")
+            self.set_status(self.t("error_status"))
             self.log(f"ERROR: {e}")
-            self._set_loader("Yukleme basarisiz")
+            self._set_loader(self.t("load_failed"))
             self._hide_loader()
-            self.toast(f"Veri yuklenemedi: {e}", success=False)
+            self.toast(self.t("data_load_failed", e=e), success=False)
 
     def _refresh_data(self):
         try:
@@ -1332,7 +1458,7 @@ class HalitChanger(ctk.CTk):
             corner=18)
         skins = [s for s in self.skins_by_champ.get(champ["id"], []) if not s.get("is_base")]
         self._current_skins = skins
-        self.skin_count_lbl.configure(text=f"{len(skins)} skins")
+        self.skin_count_lbl.configure(text=self.t("skins_count", n=len(skins)))
         self.skin_grid.set_cols(self._skin_cols)
         self.skin_grid.set_skins(skins)
 
@@ -1341,7 +1467,7 @@ class HalitChanger(ctk.CTk):
             return
         on = self.selected_champ["id"] in self.fav_champs
         self.champ_fav_btn.configure(
-            text="\u2605  Favorite" if on else "\u2606  Favorite",
+            text=self.t("favorite_on") if on else self.t("favorite"),
             text_color=CLR_STAR if on else CLR_TEXT2)
 
     def _persist_favs(self):
@@ -1395,7 +1521,7 @@ class HalitChanger(ctk.CTk):
 
     def _send_to_ltk(self, skin, chroma=None, card=None):
         if not self.ready:
-            self.toast("Still loading, please wait...", success=False)
+            self.toast(self.t("still_loading"), success=False)
             if card:
                 card.send_done(False)
             return
@@ -1416,12 +1542,12 @@ class HalitChanger(ctk.CTk):
             try:
                 os.startfile(deep)
                 self.log(f"  -> Sent to LTK: {label}")
-                self.toast(f"\u2713  Skin LTK'ya gonderildi  \u00b7  {label}", success=True)
+                self.toast(self.t("sent_toast", label=label), success=True)
                 if card:
                     self.after(0, lambda: card.send_done(True))
             except OSError:
                 self.log("  X LTK send failed")
-                self.toast("LTK'ya gonderilemedi", success=False)
+                self.toast(self.t("send_failed"), success=False)
                 if card:
                     self.after(0, lambda: card.send_done(False))
 
@@ -1445,7 +1571,7 @@ class HalitChanger(ctk.CTk):
         except Exception:
             pass
 
-        splash = ctk.CTkLabel(win, text="Loading...", width=688, height=300,
+        splash = ctk.CTkLabel(win, text=self.t("loading_img"), width=688, height=300,
                               fg_color=CLR_CARD, corner_radius=12, text_color=CLR_MUTED,
                               font=ctk.CTkFont(size=14))
         splash.pack(padx=16, pady=(16, 8))
@@ -1468,7 +1594,7 @@ class HalitChanger(ctk.CTk):
         selected = {"v": card.selected_chroma if card else None}
 
         if chromas:
-            ctk.CTkLabel(win, text="Color Packs", font=ctk.CTkFont(size=12, weight="bold"),
+            ctk.CTkLabel(win, text=self.t("color_packs"), font=ctk.CTkFont(size=12, weight="bold"),
                          text_color=CLR_TEXT2).pack(anchor="w", padx=20, pady=(12, 4))
             ch_frame = ctk.CTkScrollableFrame(win, fg_color="transparent", height=92,
                                               scrollbar_fg_color=CLR_BG,
@@ -1500,7 +1626,7 @@ class HalitChanger(ctk.CTk):
                 btn.pack(side="left", padx=(0, 6), pady=4)
                 chips.append((ch, btn, color))
 
-            add_chip(None, "Default", "#d4d4de")
+            add_chip(None, self.t("default"), "#d4d4de")
             for ch in chromas:
                 add_chip(ch, ch["name"], chroma_hex(ch["name"]))
             paint()
@@ -1512,11 +1638,11 @@ class HalitChanger(ctk.CTk):
             self._send_to_ltk(skin, selected["v"], card=card)
             win.destroy()
 
-        ctk.CTkButton(bar, text="+  Add to LTK", height=40, corner_radius=10,
+        ctk.CTkButton(bar, text=self.t("add_to_ltk"), height=40, corner_radius=10,
                       fg_color=CLR_GOLD_DK, hover_color=CLR_GOLD, text_color="#1a1400",
                       font=ctk.CTkFont(size=14, weight="bold"),
                       command=send_and_close).pack(side="left")
-        ctk.CTkButton(bar, text="Close", height=40, width=90, corner_radius=10,
+        ctk.CTkButton(bar, text=self.t("close"), height=40, width=90, corner_radius=10,
                       fg_color=CLR_CARD, hover_color=CLR_CARD_HOV,
                       border_width=1, border_color=CLR_BORDER,
                       font=ctk.CTkFont(size=13),
