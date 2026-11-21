@@ -8,7 +8,7 @@
 [LTK Manager](https://github.com/LeagueToolkit/ltk-manager) in one click.
 
 ![platform](https://img.shields.io/badge/platform-Windows-0b0b12?style=flat-square)
-![python](https://img.shields.io/badge/python-3.10%2B-8b5cf6?style=flat-square)
+![rust](https://img.shields.io/badge/rust-egui-8b5cf6?style=flat-square)
 ![license](https://img.shields.io/badge/license-Unlicense-f0c050?style=flat-square)
 
 **[English](#english)** · **[Türkçe](#türkçe)**
@@ -40,7 +40,11 @@ Changer is just a showcase and a sender.
 - 🌐 TR / EN interface toggle in the header — remembers your choice
 - 🔌 Live LTK Manager connection status; auto-starts LTK if it's not running
 - ⚡ Images are cached on disk — instant load on the second launch
-- 🧩 Single-file `.exe` — no Python install required
+- 🎲 **Random** (Ctrl+R): random skin + chroma for the selected champion, or from your favorite champions
+- 🕘 **Send history**: last 40 skins sent to LTK, one-click "send again" or jump back to the skin
+- 🖌️ Real chroma colors and chroma preview images from CommunityDragon, localized chroma names
+- 🔎 Skin search inside a champion; favorite skins float to the top
+- 🦀 Rewritten in Rust (egui) since a1.2 — single small native `.exe`, no runtime needed
 
 ### How it works
 
@@ -55,20 +59,19 @@ LTK's trusted download sources automatically.
 
 ### Install
 
-**Prebuilt app (recommended):** grab `Halit Changer.exe` from the
-[Releases](../../releases) tab and double-click it. No Python needed.
+**Prebuilt app (recommended):** grab `HalitChanger.exe` from the
+[Releases](../../releases) tab and double-click it. Nothing else to install.
 
 **Run from source:**
 
 ```bash
 git clone https://github.com/halitgoymen/halitchanger.git
 cd halitchanger
-pip install -r requirements.txt
-python halit_changer.py
+cargo run --release
 ```
 
-**Building your own exe:** run `build_exe.bat` → produces `dist/Halit Changer.exe`
-(uses PyInstaller).
+**Building your own exe:** `cargo build --release` → `target/release/halit-changer.exe`
+(needs the Rust toolchain; the window icon is embedded via the Windows SDK if present).
 
 #### Requirement
 
@@ -120,12 +123,13 @@ star is saved separately for champions and for skins.
 
 | File | Purpose |
 |------|---------|
-| `halit_changer.py` | Application source |
-| `skin_ids.json` | Skin and chroma IDs |
+| `src/app.rs` | egui interface (sidebar, skin grid, detail, history, random) |
+| `src/data.rs` | Config, CommunityDragon data, chroma index, disk cache |
+| `src/ltk.rs` | LTK detection, `ltk://` protocol, trusted domain setup |
+| `src/images.rs` | Background image loader + cache |
+| `src/i18n.rs` | TR / EN strings |
+| `skin_ids.json` | Skin and chroma IDs (embedded into the exe) |
 | `assets/logo.png`, `assets/icon.ico` | Logo and window/exe icon |
-| `build_exe.bat` | PyInstaller build script |
-| `Halit Changer.spec` | PyInstaller build spec |
-| `HalitChanger.bat` | Run-from-source launcher |
 
 ### Credits
 
@@ -169,7 +173,11 @@ sadece bir vitrin ve gönderici.
 - 🌐 Header'da TR / EN dil seçici — seçimi hatırlar
 - 🔌 LTK Manager bağlantı durumu canlı gösterilir, kapalıysa uygulama kendisi başlatır
 - ⚡ Görseller diskte önbelleğe alınır, ikinci açılış anında yüklenir
-- 🧩 Tek dosyalık `.exe` — Python kurulumu gerekmez
+- 🎲 **Rastgele** (Ctrl+R): seçili şampiyondan ya da favori şampiyonlarından rastgele skin + chroma
+- 🕘 **Gönderim geçmişi**: LTK'ya gönderilen son 40 skin, tek tıkla tekrar gönder ya da skine dön
+- 🖌️ CommunityDragon'dan gerçek chroma renkleri, chroma önizleme görseli ve Türkçe chroma adları
+- 🔎 Şampiyon içinde skin arama; favori skinler üste çıkar
+- 🦀 a1.2'den beri Rust (egui) ile yeniden yazıldı — tek, küçük, yerel `.exe`, ek kurulum yok
 
 ### Nasıl çalışır
 
@@ -184,20 +192,19 @@ kaynakları listesine otomatik eklenir.
 
 ### Kurulum
 
-**Hazır uygulama (önerilen):** [Releases](../../releases) sekmesinden `Halit Changer.exe`'yi
-indir, çift tıkla. Python gerekmez.
+**Hazır uygulama (önerilen):** [Releases](../../releases) sekmesinden `HalitChanger.exe`'yi
+indir, çift tıkla. Başka kurulum gerekmez.
 
 **Kaynaktan çalıştırma:**
 
 ```bash
 git clone https://github.com/halitgoymen/halitchanger.git
 cd halitchanger
-pip install -r requirements.txt
-python halit_changer.py
+cargo run --release
 ```
 
-**Kendi exe'ni derlemek istersen:** `build_exe.bat` → `dist/Halit Changer.exe` üretir
-(PyInstaller kullanır).
+**Kendi exe'ni derlemek istersen:** `cargo build --release` → `target/release/halit-changer.exe`
+(Rust araç zinciri gerekir).
 
 #### Gereksinim
 
@@ -249,12 +256,13 @@ sebep oluyor.
 
 | Dosya | İşlev |
 |-------|-------|
-| `halit_changer.py` | Uygulama kaynağı |
-| `skin_ids.json` | Skin ve chroma ID'leri |
+| `src/app.rs` | egui arayüzü (kenar çubuğu, skin ızgarası, detay, geçmiş, rastgele) |
+| `src/data.rs` | Ayarlar, CommunityDragon verisi, chroma indeksi, disk önbelleği |
+| `src/ltk.rs` | LTK tespiti, `ltk://` protokolü, güvenilir kaynak ayarı |
+| `src/images.rs` | Arka plan görsel yükleyici + önbellek |
+| `src/i18n.rs` | TR / EN metinler |
+| `skin_ids.json` | Skin ve chroma ID'leri (exe'ye gömülü) |
 | `assets/logo.png`, `assets/icon.ico` | Logo ve pencere/exe ikonu |
-| `build_exe.bat` | PyInstaller ile exe derleyici |
-| `Halit Changer.spec` | PyInstaller build spec'i |
-| `HalitChanger.bat` | Kaynaktan (Python ile) çalıştırıcı |
 
 ### Teşekkür
 

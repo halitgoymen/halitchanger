@@ -1,0 +1,33 @@
+[package]
+name = "halit-changer"
+version = "1.2.0"
+edition = "2021"
+description = "League of Legends skin browser that sends picks to LTK Manager"
+license = "Unlicense"
+build = "build.rs"
+
+[[bin]]
+name = "halit-changer"
+path = "src/main.rs"
+
+[dependencies]
+eframe = { version = "0.37", default-features = false, features = ["default_fonts", "glow", "persistence"] }
+egui = "0.37"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp"] }
+ureq = "3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+fastrand = "2"
+urlencoding = "2"
+winreg = "0.56"
+windows-sys = { version = "0.61", features = ["Win32_System_Diagnostics_ToolHelp", "Win32_Foundation", "Win32_Globalization", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging", "Win32_Storage_FileSystem", "Win32_System_SystemInformation", "Win32_Graphics_Dwm"] }
+
+[build-dependencies]
+winresource = "0.1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
